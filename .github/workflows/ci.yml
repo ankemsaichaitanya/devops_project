@@ -1,0 +1,35 @@
+name: React TDD CI
+
+# 🟢 When to run this workflow
+on:
+  push:
+    branches: [ main ]     # runs when you push to the main branch
+  pull_request:
+    branches: [ main ]     # also runs on pull requests
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest  # GitHub gives you a free Ubuntu machine
+
+    steps:
+      # Step 1: Download your code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Install Node.js (v18)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # Step 3: Install dependencies (npm install)
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Run unit tests
+      - name: Run tests
+        run: npm test -- --watchAll=false
+
+      # Step 5: Build the project
+      - name: Build project
+        run: npm run build
